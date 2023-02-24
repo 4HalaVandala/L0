@@ -1,0 +1,9 @@
+port: 8000
+
+db:
+  host: "localhost"
+  port: "5432"
+  user: "repository"
+  password: "1417"
+  dbname: "go_l0"
+  sslmode: "disable"
