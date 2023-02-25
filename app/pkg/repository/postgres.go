@@ -2,12 +2,21 @@ package repository
 
 import (
 	"fmt"
+
 	"github.com/jmoiron/sqlx"
+)
+
+const (
+	usersTable      = "users"
+	todoListsTable  = "todo_lists"
+	usersListsTable = "users_lists"
+	todoItemsTable  = "todo_items"
+	listsItemTable  = "lists_items"
 )
 
 type Config struct {
 	Host     string
-	Port     int
+	Port     string
 	Username string
 	Password string
 	DBName   string
@@ -22,8 +31,10 @@ func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
 	}
 
 	err = db.Ping()
+
 	if err != nil {
 		return nil, err
 	}
+
 	return db, nil
 }

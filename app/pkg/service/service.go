@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/4halavandala/l0/app/internal/entity"
+	"github.com/4halavandala/l0/app/pkg/cache"
 	"github.com/4halavandala/l0/app/pkg/repository"
 )
 
@@ -22,6 +23,7 @@ type Service struct {
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		TodoOrder: NewTodoOrderService(repos.TodoOrder),
+		TodoOrder:    NewTodoOrderService(repos.TodoOrder),
+		CacheService: cache.NewCache(repos.CacheService),
 	}
 }
