@@ -10,3 +10,9 @@ db:
 nats:
   cluster_id: "test-cluster"
   client_id: "client1"
+  producer_id: "producer1"
+  url: "nats://localhost:4222"
+  queue: "queue1"
+
+json:
+  path: "model.json"
