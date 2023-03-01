@@ -16,75 +16,9 @@
     <meta charset="UTF-8">
     <title>Orders</title>
 </head>
-<script>
 
-    function loadOrders() {
-        var id = document.getElementById("id").value
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', `http://localhost:8000/api/v1/cache/${id}`, true);
-        xhr.onload = function () {
-            if (this.status == 200) {
-                var data = JSON.parse(this.responseText);
-                if (data) {
-                    document.querySelector(".mainContainer").style.visibility = "visible"
-                }
-                // Выводим данные на страницу
-                console.log(data)
-                document.getElementById("order_uid").innerText=data.order_uid
-                document.getElementById("track_number").innerText=data.track_number
-                document.getElementById("entry").innerText=data.entry
-
-                document.getElementById("locale").innerText=data.locale
-                document.getElementById("internal_signature").innerText=data.internal_signature
-                document.getElementById("customer_id").innerText=data.customer_id
-                document.getElementById("delivery_service").innerText=data.delivery_service
-                document.getElementById("shardkey").innerText=data.shardkey
-                document.getElementById("sm_id").innerText=data.sm_id
-                document.getElementById("date_created").innerText=data.date_created
-                document.getElementById("oof_shard").innerText=data.oof_shard
-
-                document.getElementById("name").innerText=data.delivery.name
-                document.getElementById("phone").innerText=data.delivery.phone
-                document.getElementById("zip").innerText=data.delivery.zip
-                document.getElementById("city").innerText=data.delivery.city
-                document.getElementById("address").innerText=data.delivery.address
-                document.getElementById("region").innerText=data.delivery.region
-                document.getElementById("email").innerText=data.delivery.email
-
-                document.getElementById("transaction").innerText=data.payment.transaction
-                document.getElementById("request_id").innerText=data.payment.request_id
-                document.getElementById("currency").innerText=data.payment.currency
-                document.getElementById("provider").innerText=data.payment.provider
-                document.getElementById("amount").innerText=data.payment.amount
-                document.getElementById("payment_dt").innerText=data.payment.payment_dt
-                document.getElementById("bank").innerText=data.payment.bank
-                document.getElementById("delivery_cost").innerText=data.payment.delivery_cost
-                document.getElementById("goods_total").innerText=data.payment.goods_total
-                document.getElementById("custom_fee").innerText=data.payment.custom_fee
-
-                var table = document.getElementById("tableContent")
-                data.items.forEach(item => {
-                    let row = document.createElement("tr")
-                    row.innerHTML = `<td>${item.chrt_id}</td>
-                                    <td>${item.track_number}</td>
-                                    <td>${item.price}</td>
-                                    <td>${item.rid}</td>
-                                    <td>${item.name}</td>
-                                    <td>${item.sale}</td>
-                                    <td>${item.size}</td>
-                                    <td>${item.total_price}</td>
-                                    <td>${item.nm_id}</td>
-                                    <td>${item.brand}</td>
-                                    <td>${item.status}</td>
-`
-                    table.appendChild(row)
-                })
-            }
-        };
-        xhr.send();
-    }
-</script>
 <body>
+
 <input type = "text" id="id" oninput="loadOrders()" placeholder="Enter order id">
 <div class="mainContainer" style="visibility: hidden">
     <div style ="display: flex; flex-wrap: wrap; gap: 30px; border: 1px solid black; font-size: 1.2rem; padding: 10px; margin-top: 20px;">
@@ -152,6 +86,75 @@
         </tbody>
     </table>
 </div>
+<script type="text/javascript">
+    console.log("123")
+    function loadOrders() {
 
+        var id = document.getElementById("id").value
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://localhost:8000/api/v1/cache/${id}`, true);
+        xhr.onload = function () {
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                if (data) {
+                    document.querySelector(".mainContainer").style.visibility = "visible"
+                }
+                // Выводим данные на страницу
+
+                document.getElementById("order_uid").innerText=data.order_uid
+                document.getElementById("track_number").innerText=data.track_number
+                document.getElementById("entry").innerText=data.entry
+
+                document.getElementById("locale").innerText=data.locale
+                document.getElementById("internal_signature").innerText=data.internal_signature
+                document.getElementById("customer_id").innerText=data.customer_id
+                document.getElementById("delivery_service").innerText=data.delivery_service
+                document.getElementById("shardkey").innerText=data.shardkey
+                document.getElementById("sm_id").innerText=data.sm_id
+                document.getElementById("date_created").innerText=data.date_created
+                document.getElementById("oof_shard").innerText=data.oof_shard
+
+                document.getElementById("name").innerText=data.delivery.name
+                document.getElementById("phone").innerText=data.delivery.phone
+                document.getElementById("zip").innerText=data.delivery.zip
+                document.getElementById("city").innerText=data.delivery.city
+                document.getElementById("address").innerText=data.delivery.address
+                document.getElementById("region").innerText=data.delivery.region
+                document.getElementById("email").innerText=data.delivery.email
+
+                document.getElementById("transaction").innerText=data.payment.transaction
+                document.getElementById("request_id").innerText=data.payment.request_id
+                document.getElementById("currency").innerText=data.payment.currency
+                document.getElementById("provider").innerText=data.payment.provider
+                document.getElementById("amount").innerText=data.payment.amount
+                document.getElementById("payment_dt").innerText=data.payment.payment_dt
+                document.getElementById("bank").innerText=data.payment.bank
+                document.getElementById("delivery_cost").innerText=data.payment.delivery_cost
+                document.getElementById("goods_total").innerText=data.payment.goods_total
+                document.getElementById("custom_fee").innerText=data.payment.custom_fee
+
+                var table = document.getElementById("tableContent")
+                table.innerHTML = ""
+                data.items.forEach(item => {
+                    let row = document.createElement("tr")
+                    row.innerHTML = `<td>${item.chrt_id}</td>
+                                    <td>${item.track_number}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.rid}</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.sale}</td>
+                                    <td>${item.size}</td>
+                                    <td>${item.total_price}</td>
+                                    <td>${item.nm_id}</td>
+                                    <td>${item.brand}</td>
+                                    <td>${item.status}</td>
+`
+                    table.appendChild(row)
+                })
+            }
+        };
+        xhr.send();
+    }
+</script>
 </body>
 </html>
