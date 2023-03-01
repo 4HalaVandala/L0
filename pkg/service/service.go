@@ -6,6 +6,8 @@ import (
 	"github.com/4halavandala/l0/pkg/repository"
 )
 
+//go:generate mockgen -source=service.go -destination=mocks/mock.go
+
 type TodoOrder interface {
 	Create(order entity.Model) (*entity.Model, error)
 	GetAll() (*[]entity.Model, error)

@@ -64,7 +64,10 @@ func main() {
 
 	logrus.Info("Application started successfully")
 	// nats connection
-	sc, _ := stan.Connect(viper.GetString("nats.cluster_id"), viper.GetString("nats.client_id"), stan.NatsURL(viper.GetString("nats.url")))
+	sc, _ := stan.Connect(
+		viper.GetString("nats.cluster_id"),
+		viper.GetString("nats.client_id"),
+		stan.NatsURL(viper.GetString("nats.url")))
 	defer sc.Close()
 	// receiving messages + saving data to db
 	_, err = sc.Subscribe(viper.GetString("nats.queue"), func(msg *stan.Msg) {
@@ -79,6 +82,10 @@ func main() {
 			log.Fatalf("%s", err.Error())
 		}
 
+		err = services.InitCache()
+		if err != nil {
+			logrus.Errorf("Error occured on saving data in cache: %s", err.Error())
+		}
 	}, stan.DurableName("my-durable"))
 	if err != nil {
 		log.Fatal(err)

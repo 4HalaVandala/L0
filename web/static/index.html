@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>.mainContainer{
+        flex-direction: column;
+        display: flex;
+        flex-wrap: wrap;
+
+    }
+    table,th,td {
+        border-collapse: collapse;
+        border: 1px solid black;
+        text-align: center;
+        padding: 3px;
+    }</style>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+</head>
+<script>
+
+    function loadOrders() {
+        var id = document.getElementById("id").value
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://localhost:8000/api/v1/cache/${id}`, true);
+        xhr.onload = function () {
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                if (data) {
+                    document.querySelector(".mainContainer").style.visibility = "visible"
+                }
+                // Выводим данные на страницу
+                console.log(data)
+                document.getElementById("order_uid").innerText=data.order_uid
+                document.getElementById("track_number").innerText=data.track_number
+                document.getElementById("entry").innerText=data.entry
+
+                document.getElementById("locale").innerText=data.locale
+                document.getElementById("internal_signature").innerText=data.internal_signature
+                document.getElementById("customer_id").innerText=data.customer_id
+                document.getElementById("delivery_service").innerText=data.delivery_service
+                document.getElementById("shardkey").innerText=data.shardkey
+                document.getElementById("sm_id").innerText=data.sm_id
+                document.getElementById("date_created").innerText=data.date_created
+                document.getElementById("oof_shard").innerText=data.oof_shard
+
+                document.getElementById("name").innerText=data.delivery.name
+                document.getElementById("phone").innerText=data.delivery.phone
+                document.getElementById("zip").innerText=data.delivery.zip
+                document.getElementById("city").innerText=data.delivery.city
+                document.getElementById("address").innerText=data.delivery.address
+                document.getElementById("region").innerText=data.delivery.region
+                document.getElementById("email").innerText=data.delivery.email
+
+                document.getElementById("transaction").innerText=data.payment.transaction
+                document.getElementById("request_id").innerText=data.payment.request_id
+                document.getElementById("currency").innerText=data.payment.currency
+                document.getElementById("provider").innerText=data.payment.provider
+                document.getElementById("amount").innerText=data.payment.amount
+                document.getElementById("payment_dt").innerText=data.payment.payment_dt
+                document.getElementById("bank").innerText=data.payment.bank
+                document.getElementById("delivery_cost").innerText=data.payment.delivery_cost
+                document.getElementById("goods_total").innerText=data.payment.goods_total
+                document.getElementById("custom_fee").innerText=data.payment.custom_fee
+
+                var table = document.getElementById("tableContent")
+                data.items.forEach(item => {
+                    let row = document.createElement("tr")
+                    row.innerHTML = `<td>${item.chrt_id}</td>
+                                    <td>${item.track_number}</td>
+                                    <td>${item.price}</td>
+                                    <td>${item.rid}</td>
+                                    <td>${item.name}</td>
+                                    <td>${item.sale}</td>
+                                    <td>${item.size}</td>
+                                    <td>${item.total_price}</td>
+                                    <td>${item.nm_id}</td>
+                                    <td>${item.brand}</td>
+                                    <td>${item.status}</td>
+`
+                    table.appendChild(row)
+                })
+            }
+        };
+        xhr.send();
+    }
+</script>
+<body>
+<input type = "text" id="id" oninput="loadOrders()" placeholder="Enter order id">
+<div class="mainContainer" style="visibility: hidden">
+    <div style ="display: flex; flex-wrap: wrap; gap: 30px; border: 1px solid black; font-size: 1.2rem; padding: 10px; margin-top: 20px;">
+    <div><p>Order_uid: <span id = "order_uid"></span></p></div>
+    <div><p>track_number: <span id = "track_number"></span></p></div>
+    <div><p>entry: <span id = "entry"></span></p></div>
+
+
+    </div>
+    <div style ="display: flex; flex-wrap: wrap; gap: 30px; border: 1px solid black; font-size: 1.2rem; padding: 10px; margin-top: 20px;">
+        <div><p>locale: <span id = "locale"></span></p></div>
+        <div><p>internal_signature: <span id = "internal_signature"></span></p></div>
+        <div><p>customer_id: <span id = "customer_id"></span></p></div>
+        <div><p>delivery_service: <span id = "delivery_service"></span></p></div>
+        <div><p>shardkey: <span id = "shardkey"></span></p></div>
+        <div><p>sm_id: <span id = "sm_id"></span></p></div>
+        <div><p>date_created: <span id = "date_created"></span></p></div>
+        <div><p>oof_shard: <span id = "oof_shard"></span></p></div>
+    </div>
+    <div style="display: flex; margin-top: 20px">
+
+<div style ="border:1px solid black; padding-left: 30px;padding-right: 30px; width: 50%;">
+    <h3>Delivery</h3>
+    <div><p>name: <span id = "name"></span></p></div>
+    <div><p>phone: <span id = "phone"></span></p></div>
+    <div><p>zip: <span id = "zip"></span></p></div>
+    <div><p>city: <span id = "city"></span></p></div>
+    <div><p>address: <span id = "address"></span></p></div>
+    <div><p>region: <span id = "region"></span></p></div>
+    <div><p>email: <span id = "email"></span></p></div>
+</div>
+
+    <div style ="border:1px solid black; padding-left: 30px;padding-right: 30px; width: 50%;">
+        <h3>Payment</h3>
+        <div><p>transaction: <span id = "transaction"></span></p></div>
+        <div><p>request_id: <span id = "request_id"></span></p></div>
+        <div><p>currency: <span id = "currency"></span></p></div>
+        <div><p>provider: <span id = "provider"></span></p></div>
+        <div><p>amount: <span id = "amount"></span></p></div>
+        <div><p>payment_dt: <span id = "payment_dt"></span></p></div>
+        <div><p>bank: <span id = "bank"></span></p></div>
+        <div><p>delivery_cost: <span id = "delivery_cost"></span></p></div>
+        <div><p>goods_total: <span id = "goods_total"></span></p></div>
+        <div><p>custom_fee: <span id = "custom_fee"></span></p></div>
+    </div>
+    </div>
+    <table style="margin-top: 20px">
+        <thead>
+        <tr>
+            <th>chrt_id</th>
+            <th>track_number</th>
+            <th>price</th>
+            <th>rid</th>
+            <th>name</th>
+            <th>sale</th>
+            <th>size</th>
+            <th>total_price</th>
+            <th>nm_id</th>
+            <th>brand</th>
+            <th>status</th>
+    </tr>
+        </thead>
+        <tbody id="tableContent">
+
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
